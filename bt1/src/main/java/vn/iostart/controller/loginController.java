@@ -37,7 +37,7 @@ public class loginController extends HttpServlet {
 		} else if (url.contains("login")) {
 			getLogin(req, resp);
 		} else if (url.contains("forgotpass")) {
-			req.getRequestDispatcher("views/web/forgotpassword.jsp").forward(req, resp);
+			req.getRequestDispatcher("views/web/forgotPassword.jsp").forward(req, resp);
 		} else if (url.contains("waiting")) {
 			getWaiting(req, resp);
 		} else if (url.contains("VerifyCode")) {
@@ -109,22 +109,27 @@ public class loginController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String username = req.getParameter("username");
 		String email = req.getParameter("email");
+		String Pass=req.getParameter("password");
 		Users user = userService.findOne(username);
 		if (user.getEmail().equals(email) && user.getUserName().equals(username)) {
-			Email sm = new Email();
-			boolean test = sm.Emailsend(user);
-			if (test) {
-				req.setAttribute("message", "Vui lòng kiểm tra email để nhận mật khẩu mới nhé");
-			} else {
-				req.setAttribute("error", "Lỗi gửi mail!");
-			}
-		} else {
-
-			req.setAttribute("error", "Username hoặc Email không tồn tại trong hệ thống!");
-			req.getRequestDispatcher("views/web/forgotpassword.jsp").forward(req, resp);
-			return;
+			
+			userService.updatePass(email, username, Pass);
+//			Email sm = new Email();
+//			boolean test = sm.Emailsend(user);
+//			if (test) {
+//				req.setAttribute("message", "Vui lòng kiểm tra email để nhận mật khẩu mới nhé");
+//			} else {
+//				req.setAttribute("error", "Lỗi gửi mail!");
+//			}
+//		} else {
+			req.setAttribute("message", "doi mat khau thanh cong");
 		}
-		req.getRequestDispatcher("views/web/forgotpassword.jsp").forward(req, resp);
+		else {
+			req.setAttribute("error", "Username hoặc Email không tồn tại trong hệ thống!");
+			req.getRequestDispatcher("views/web/forgotpassword.jsp").forward(req, resp);	
+		
+		}
+		req.getRequestDispatcher("views/web/login.jsp").forward(req, resp);
 	}
 
 	private void postRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -127,6 +127,21 @@ public class UserDaoImpl implements IUserDao {
 		return null;
 	}
 	@Override
+	public void updatePass(String Email,String userName,String Pass)
+	{
+		String sql = "UPDATE users SET password=? WHERE username = ?";
+		try {
+			new DBConnection();
+			conn = DBConnection.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, Pass);
+			ps.setString(2, userName);
+			ps.executeUpdate();
+		} catch (Exception e) { // TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
 	public Users findOne(String username) {
 		
 		String sql = "SELECT * FROM Users WHERE username = ?";

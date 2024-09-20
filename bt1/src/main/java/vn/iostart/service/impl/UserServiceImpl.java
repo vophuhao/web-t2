@@ -21,9 +21,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void update(Users user) {
-		// TODO Auto-generated method stub
+	public void updatePass(String Email,String username,String Pass) {
 		
+		userDao.updatePass(Email, username, Pass);
 	}
 
 	@Override
