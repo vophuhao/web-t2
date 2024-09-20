@@ -31,21 +31,34 @@ public class UserDaoImpl implements IUserDao {
 
 	@Override
 	public void insertregister(Users user) {
-		String sql = "Insert INTO Users (email, username, fullname, password, status, roleId, code) Values (?,?,?,?,?,?)";
+		String sql = "Insert INTO users (email, username, fullname, password, status, roleid, code) Values (?,?,?,?,?,?,?)";
 		try {
+			
 			new DBConnection();
 			conn = DBConnection.getConnection();
+			
 			ps = conn.prepareStatement(sql);
+			
 			ps.setString(1, user.getEmail());
+			
 			ps.setString(2, user.getUserName());
+			
 			ps.setString(3, user.getFullName());
+			
 			ps.setString(4, user.getPassWord());
+			
 			ps.setInt(5, user.getStatus());
+			
 			ps.setInt(6, user.getRoleid());
+			
 			ps.setString(7, user.getCode());
+			
 			ps.executeUpdate();
+			
+			System.out.println("hhh");
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 

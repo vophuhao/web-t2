@@ -46,8 +46,7 @@ public class UserServiceImpl implements IUserService {
 			if (userDao.checkExistUsername(username)) {
 			return false;
 			}
-			userDao.insertregister(new Users(username, email, fullname, password, 0, 2, code)); 
-			
+			userDao.insertregister(new Users(username, email, fullname, password, 2, 1, code)); 
 			return true;
 	}
 

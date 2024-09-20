@@ -2,8 +2,6 @@ package vn.iostart.ultils;
 
 import java.util.Properties;
 import java.util.Random;
-
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -11,69 +9,65 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import vn.iostart.model.Users;
 
 public class Email {
-	public String getRandom() {
-		Random rnd =new Random();
-		int number= rnd.nextInt(999999);
-		return String.format("%06d", number);
-		}
-		//send email to the user email
-		public boolean sendEmail (Users user) {
-		boolean test = false;
-		String toEmail= user.getEmail(); 
-		String fromEmail= "vophuhao2004@gmail.com"; 
-		String password = "Phuhao123";
-		try {
-			// your host email smup server details
-			Properties pr= configEmail(new Properties());
-			//get session to authenticate the host email address and password 
-			Session session= Session.getInstance(pr, new Authenticator() { 
-				@Override
-			
-			protected PasswordAuthentication getPasswordAuthentication() 
-			{ 
-				return new PasswordAuthentication (fromEmail, password);
-			}
-			});
-			//set email message details
-			Message mess =new MimeMessage(session);
-			mess.setHeader("Content-Type", "text/plain; charset=UTF-8");
-			//set from email address
-			mess.setFrom(new InternetAddress (fromEmail));
-			
-			mess.setRecipient (Message. RecipientType. TO, new InternetAddress(toEmail));
-			//set email subject 
-			mess.setSubject("Yours Password");
-			//set message text 
-			mess.setText("Password: "+ user.getPassWord());
-			//send the message 
-			Transport.send(mess);
-			test=true;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace()
-;		}
-		return test;
-		}
-		
+    
+    // Method to generate a random 6-digit code
+    public String getRandom() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
+    }
+    
+    // Method to send email to the user's email address
+    public boolean sendEmail(Users user) {
+        boolean isSent = false;
+        String toEmail = user.getEmail();
+        String fromEmail = "vophuhao2004@gmail.com";
+        String password = "Phuhao123";
+        
+        try {
+            // Set up properties for the email server
+            Properties properties = configEmail(new Properties());
+            
+            // Create a session to authenticate the sender's email address and password
+            Session session = Session.getInstance(properties, new Authenticator() { 
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() { 
+                    return new PasswordAuthentication(fromEmail, password);
+                }
+            });
+            
+            // Create and set up the email message
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("Your Password");
+            message.setText("Password: " + user.getPassWord());
+            
+            // Send the email message
+            Transport.send(message);
+            isSent = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return isSent;
+    }
+    
+    // Method to configure email server properties
+    private Properties configEmail(Properties properties) {
+        properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+        properties.setProperty("mail.smtp.port", "587");
+        properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        return properties;
+    }
 
-		private Properties configEmail(Properties pr) {
-			pr.setProperty("mail.smtp.host", "smtp.gmail.com");
-			pr.setProperty("mail.smtp.port", "587");
-			pr.setProperty("mail.smtp.auth", "true");
-			pr.setProperty("mail.smtp.starttls.enable", "true"); 
-			pr.put("mail.smtp.socketFactory.port", "587");
-			pr.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			return pr;
-			}
-		public boolean Emailsend(Users user) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-		
-		
+    // Placeholder method for additional functionality
+    public boolean Emailsend(Users user) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

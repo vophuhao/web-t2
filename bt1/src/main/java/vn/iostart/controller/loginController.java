@@ -145,32 +145,49 @@ public class loginController extends HttpServlet {
 			alertMsg = "Tài khoản đã tồn tại!";
 			req.setAttribute("error", alertMsg);
 			req.getRequestDispatcher("/views/web/register.jsp").forward(req, resp);
-		} else {
-			Email sm = new Email();
-			// get the 6-digit code
-			String code = sm.getRandom();
-			// craete new user using all information
-			Users user = new Users(username, email, fullname, code);
-			boolean test = sm.sendEmail(user);
-			System.out.println(test);
-			if (test) {
-
-				HttpSession session = req.getSession();
-				session.setAttribute("account", user);
-				boolean isSuccess = userService.register(email, password, username, fullname, code);
+		}
+//		} else {
+//			Email sm = new Email();
+//			// get the 6-digit code
+//			String code = sm.getRandom();
+//			// craete new user using all information
+//			Users user = new Users(username, email, fullname, code);
+//			boolean test = sm.sendEmail(user);
+//			System.out.println(test);
+//			if (test) {
+//
+//				HttpSession session = req.getSession();
+//				session.setAttribute("account", user);
+//				boolean isSuccess = userService.register(email, password, username, fullname, code);
+//				if (isSuccess) {
+//					resp.sendRedirect(req.getContextPath() + "/VerifyCode");
+//				} else {
+//					alertMsg = "Lỗi hệ thống!";
+//					req.setAttribute("error", alertMsg);
+//					req.getRequestDispatcher("/views/web/register.jsp").forward(req, resp);
+//				}
+//			} else {
+//				PrintWriter out = resp.getWriter();
+//				out.println("Lỗi khi gửi mail!!!!!!!!");
+//			}
+//		}
+			else
+			{
+				
+				boolean isSuccess = userService.register(email, password, username, fullname, "007");
+				alertMsg=("Dang ki thanh cong");
+				req.setAttribute("succesful", alertMsg);
 				if (isSuccess) {
-					resp.sendRedirect(req.getContextPath() + "/VerifyCode");
+					resp.sendRedirect(req.getContextPath() + "/login");
 				} else {
 					alertMsg = "Lỗi hệ thống!";
 					req.setAttribute("error", alertMsg);
 					req.getRequestDispatcher("/views/web/register.jsp").forward(req, resp);
 				}
-			} else {
-				PrintWriter out = resp.getWriter();
-				out.println("Lỗi khi gửi mail!!!!!!!!");
 			}
-		}
+			
 	}
+	
 
 	private void postLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
