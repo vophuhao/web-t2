@@ -200,7 +200,7 @@ public class loginController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		System.out.println(username);
+		
 		boolean isRememberMe = false;
 		String remember = req.getParameter("remember");
 		if ("on".equals(remember)) {
@@ -209,13 +209,13 @@ public class loginController extends HttpServlet {
 		}
 		String alertMsg = "";
 		if (username.isEmpty() || password.isEmpty()) {
-			alertMsg = "Tài khoản hoặc mật khẩu không đúng";
+			alertMsg = "Tài khoản hoặc mật khẩu không duoc de trong";
 			req.setAttribute("message", alertMsg);
 			req.getRequestDispatcher("/views/web/login.jsp").forward(req, resp);
 
 		}
 		Users user = userService.login(username, password);
-
+		System.out.println(user);
 		if (user != null) {
 			HttpSession session = req.getSession(true);
 			session.setAttribute("account", user);
@@ -227,7 +227,7 @@ public class loginController extends HttpServlet {
 		} else {
 			alertMsg = "Tài khoản hoặc mật khẩu không đúng";
 			req.setAttribute("alert", alertMsg);
-			req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/views/web/login.jsp").forward(req, resp);
 		}
 	}
 

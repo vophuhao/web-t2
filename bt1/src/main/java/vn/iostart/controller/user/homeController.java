@@ -19,7 +19,7 @@ public class homeController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/views/web/home.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/decorators/web.jsp").forward(req, resp);
 	}
 	
 }
