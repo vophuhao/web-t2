@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import vn.iostart.dao.DBConnection;
+import vn.iostart.configs.DBConnection;
 import vn.iostart.dao.IUserDao;
 import vn.iostart.model.Users;
 
