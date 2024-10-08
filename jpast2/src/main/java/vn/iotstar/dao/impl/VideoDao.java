@@ -18,7 +18,6 @@ public class VideoDao implements IVideoDao{
 		try {
 			trans.begin();
 			enma.persist(video);
-			//enma.persist(video);
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,7 +34,7 @@ public class VideoDao implements IVideoDao{
 		try {
 			trans.begin();
 			enma.merge(video);
-			//enma.persist(video);
+//			enma.persist(video);
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,7 +45,7 @@ public class VideoDao implements IVideoDao{
 		}
 	}
 	@Override
-	public void delete(int videoid) throws Exception {
+	public void delete(String videoid) throws Exception {
 		EntityManager enma = JPAConfig.getEntityManager();
 		EntityTransaction trans = enma.getTransaction();
 		try {
@@ -67,7 +66,7 @@ public class VideoDao implements IVideoDao{
 		}
 	}
 	@Override
-	public Video findById(int videoid) {
+	public Video findById(String videoid) {
 		EntityManager enma = JPAConfig.getEntityManager();
 		Video video = enma.find(Video.class, videoid);
 		return video;
@@ -106,10 +105,10 @@ public class VideoDao implements IVideoDao{
 	public List<Video> findByCategoryId(int catid)
 	{
 		EntityManager enma = JPAConfig.getEntityManager();
-		 String jpql = "SELECT v FROM Video v.categoryid like:cateid  ";
-		 TypedQuery<Video> query= enma.createQuery(jpql, Video.class);
-		 query.setParameter("cateid", "%" + catid + "%");
-		 return query.getResultList();
+        String jpql = "SELECT v FROM Video v WHERE v.category.categoryid = :catid";
+        TypedQuery<Video> query= enma.createQuery(jpql, Video.class);
+        query.setParameter("catid", catid);
+        return query.getResultList();
 	}
 	
 }

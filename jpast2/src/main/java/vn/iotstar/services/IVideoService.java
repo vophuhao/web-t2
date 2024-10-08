@@ -23,11 +23,11 @@ public interface IVideoService {
 
 
 	List <Video> findByCategoryId(int cateid);
-	Video findById(int vidid);
+	Video findById(String vidid);
 
 
 
-	void delete(int vidid) throws Exception;
+	void delete(String vidid) throws Exception;
 
 
 

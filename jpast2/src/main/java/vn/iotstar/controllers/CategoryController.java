@@ -13,18 +13,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import vn.iotstar.entity.Category;
+import vn.iotstar.entity.Video;
 import vn.iotstar.services.ICategoryService;
+import vn.iotstar.services.IVideoService;
 import vn.iotstar.services.impl.CategoryService;
+import vn.iotstar.services.impl.VideoService;
 import vn.iotstar.utils.Constant;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(urlPatterns = {"/admin/categories", "/admin/category/add",
 		"/admin/category/insert", "/admin/category/edit", "/admin/category/update",
-		"/admin/category/delete", "/admin/category/search"})
+		"/admin/category/delete", "/admin/category/search","/admin/category/list-video"})
 public class CategoryController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	public ICategoryService cateService = new CategoryService();
+	public IVideoService videoservice=new VideoService();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +51,7 @@ public class CategoryController extends HttpServlet {
 			req.setAttribute("cate", category);
 			req.getRequestDispatcher("/views/admin/category-edit.jsp").forward(req, resp);
 		} 
-		else if (url.contains("delete")) {
+		else if (url.contains("/admin/category/delete")) {
 			int id = Integer.parseInt(req.getParameter("id"));
 			try {
 				cateService.delete(id);
@@ -56,6 +60,13 @@ public class CategoryController extends HttpServlet {
 				e.printStackTrace();
 			}
 			resp.sendRedirect(req.getContextPath() + "/admin/categories");
+		}
+		else if(url.contains("list-video"))
+		{
+			int id = Integer.parseInt(req.getParameter("id"));
+			List<Video> list = videoservice.findByCategoryId(id);
+			req.setAttribute("listvideo", list);
+			req.getRequestDispatcher("/views/admin/category-video.jsp").forward(req, resp);
 		}
 	}
 	
@@ -110,7 +121,7 @@ public class CategoryController extends HttpServlet {
 			cateService.insert(category);
 			resp.sendRedirect(req.getContextPath() + "/admin/categories");
 			
-		} else if (url.contains("update")) {
+		} else if (url.contains("edit")) {
 			int categoryid = Integer.parseInt(req.getParameter("categoryid"));
 			String categoryname = req.getParameter("categoryname");
 			int status = Integer.parseInt(req.getParameter("status"));

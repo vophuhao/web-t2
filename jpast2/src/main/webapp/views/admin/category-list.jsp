@@ -11,6 +11,7 @@
 		<th>CategoryName</th>
 		<th>Status</th>
 		<th>Action</th>
+		<th>Video</th>
 	</tr>
 
 
@@ -39,6 +40,10 @@
 			<td>
 				<a href="<c:url value='/admin/category/edit?id=${cate.categoryid }'/>">Sửa</a> 
 				| <a href="<c:url value='/admin/category/delete?id=${cate.categoryid }'/>">Xóa</a>
+			</td>
+			<td>
+				<a href="<c:url value='/admin/video/add?id=${cate.categoryid}'/>">them</a> 
+				<a href="<c:url value='/admin/category/list-video?id=${cate.categoryid}'/>">List</a> 
 			</td>
 		</tr>
 	</c:forEach>

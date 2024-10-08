@@ -45,12 +45,12 @@ public class VideoService implements IVideoService {
 	}
 
 	@Override
-	public Video findById(int vidid) {
+	public Video findById(String vidid) {
 		return videodao.findById(vidid);
 	}
 
 	@Override
-	public void delete(int vidid) throws Exception {
+	public void delete(String vidid) throws Exception {
 		videodao.delete(vidid);
 		
 	}
